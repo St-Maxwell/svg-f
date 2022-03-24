@@ -1,0 +1,23 @@
+name = "svg-f"
+version = "0.1.0"
+license = "MIT"
+author = "St Maxwell"
+maintainer = "st_maxwell@outlook.com"
+copyright = "Copyright 2022, St Maxwell"
+
+[build]
+auto-executables = true
+
+[dev-dependencies]
+test-drive.git = "https://github.com/fortran-lang/test-drive.git"
+
+
+[[test]]
+name = "test_svgf_elements"
+source-dir = "test/test_svgf_elements"
+main = "tester.f90"
+
+[[test]]
+name = "test_svgf_utils"
+source-dir = "test/test_svgf_utils"
+main = "tester.f90"

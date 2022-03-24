@@ -1,0 +1,15 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg" stroke="null">
+ <g id="Layer_1">
+  <title>Layer 1</title>
+  <g id="svg_8">
+   <g id="svg_6">
+    <text font-style="italic" xml:space="preserve" text-anchor="start" font-family="'Epilogue'" font-size="230" id="svg_3" y="390.8" x="250.21875" stroke-width="0" stroke="#999999" fill="#bf0000">f</text>
+    <path id="svg_5" d="m313.21875,194.8l64,-0.8l-20,-20" opacity="NaN" stroke-width="10" stroke="#bf0000" fill="none"/>
+   </g>
+   <g id="svg_7">
+    <text xml:space="preserve" text-anchor="start" font-family="'Fira Code'" font-size="250" id="svg_1" y="377.8" x="131" stroke-width="0" stroke="#999999" fill="#b2b2b2">&lt;</text>
+    <text xml:space="preserve" text-anchor="start" font-family="'Fira Code'" font-size="250" id="svg_2" y="377.8" x="376" stroke-width="0" stroke="#999999" fill="#b2b2b2">&gt;</text>
+   </g>
+  </g>
+ </g>
+</svg>
