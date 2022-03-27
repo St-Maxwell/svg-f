@@ -32,7 +32,7 @@ module svgf_element
         !> serialize
         procedure(serialize), deferred :: serialize
         procedure(destroy), deferred :: destroy
-        procedure :: add
+        procedure :: add_child
         generic :: set_attrs => set_attrs_scalar, set_attrs_vector, set_attrs_array
         procedure, private :: set_attrs_scalar
         procedure, private :: set_attrs_vector
@@ -115,18 +115,21 @@ contains
 
 !>==========================================================
 
-    subroutine add(this, elem_ptr)
+    subroutine add_child(this, elem_ptr)
         class(svg_element), intent(inout) :: this
         class(svg_element), pointer, intent(inout) :: elem_ptr
 
         call this%child%push_back(elem_ptr)
 
-    end subroutine add
+    end subroutine add_child
 
-    subroutine set_attrs_scalar(this, attrs)
+    subroutine set_attrs_scalar(this, key, value)
         class(svg_element), intent(inout) :: this
-        type(svg_attribute), intent(in) :: attrs
+        character(len=*), intent(in) :: key
+        character(len=*), intent(in) :: value
+        type(svg_attribute) :: attrs
 
+        attrs = svg_attribute(key, value)
         call this%attrs%push_back(attrs)
 
     end subroutine set_attrs_scalar
