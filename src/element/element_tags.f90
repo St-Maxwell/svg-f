@@ -11,14 +11,13 @@ module svgf_element_tags
         integer :: use = 4
 
     !> shapes
-        integer :: line = 5
-        integer :: rect = 6
-        integer :: circle = 7
-        integer :: ellipse = 8
-        integer :: polyline = 9
-        integer :: polygon = 10
-        integer :: path = 11
-    
+        integer :: line = 10
+        integer :: rect = 11
+        integer :: circle = 12
+        integer :: ellipse = 13
+        integer :: polyline = 14
+        integer :: polygon = 15
+        integer :: path = 16
     end type
 
     type(svgf_elements), parameter :: svg_tag = svgf_elements()

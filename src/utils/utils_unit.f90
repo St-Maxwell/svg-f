@@ -1,7 +1,9 @@
-module svgf_unit
-    use svgf_utils, only: i2s, f2s
+module svgf_utils_unit
+    use ryu, only: f2s
+    use svgf_utils_i2s, only: i2s
     implicit none
     private
+    public :: unitless
     public :: cm, mm, em, ex, px, inch, pc, pt, percent
     public :: deg, rad
     public :: operator(*)
@@ -11,6 +13,7 @@ module svgf_unit
     end type
 
     !> public unit instance
+    type(svg_unit), parameter :: unitless = svg_unit("")
     type(svg_unit), parameter :: cm = svg_unit("cm")
     type(svg_unit), parameter :: mm = svg_unit("mm")
     type(svg_unit), parameter :: em = svg_unit("em")
@@ -35,7 +38,7 @@ contains
         type(svg_unit), intent(in) :: unit
         character(len=:), allocatable :: string
 
-        string = i2s(int)//trim(unit%unit)
+        string = trim(i2s(int)//unit%unit)
 
     end function number_with_unit_int
 
@@ -44,8 +47,8 @@ contains
         type(svg_unit), intent(in) :: unit
         character(len=:), allocatable :: string
 
-        string = f2s(float)//trim(unit%unit)
+        string = trim(f2s(float)//unit%unit)
 
     end function number_with_unit_real
 
-end module svgf_unit
+end module svgf_utils_unit

@@ -1,13 +1,12 @@
-module svgf_path
-    use svgf_element, only: svg_element
-    use svgf_attribute, only: svg_attribute, svg_attribute_vector
+module svgf_shape_path
+    use svgf_element
+    use svgf_attribute
     use svgf_utils
-    use svgf_attribute_helper, only: attribs_to_string
     implicit none
     private
-    public :: svg_path, new_path
+    public :: path_element
 
-    type, extends(svg_element) :: svg_path
+    type, extends(svg_element_base) :: path_element
         character(len=:), allocatable :: d
     contains
         procedure :: serialize => serialize_path
@@ -17,24 +16,8 @@ module svgf_path
 
 contains
 
-    subroutine new_path(this, d, id)
-        class(svg_element), pointer, intent(out) :: this
-        character(len=*), intent(in) :: d
-        character(len=*), intent(in), optional :: id
-
-        allocate (svg_path :: this)
-
-        select type (this)
-        type is (svg_path)
-            this%d = d
-        end select
-
-        if (present(id)) call this%set_id(id)
-
-    end subroutine new_path
-
     function serialize_path(this) result(string)
-        class(svg_path), intent(in) :: this
+        class(path_element), intent(in) :: this
         character(len=:), allocatable :: string
         type(string_buffer_t) :: buf
         integer :: i
@@ -52,7 +35,7 @@ contains
     end function serialize_path
 
     function get_tag_path(this) result(tag)
-        class(svg_path), intent(in) :: this
+        class(path_element), intent(in) :: this
         character(len=:), allocatable :: tag
 
         tag = "path"
@@ -60,10 +43,10 @@ contains
     end function get_tag_path
 
     subroutine destroy_path(this)
-        class(svg_path), intent(inout) :: this
+        class(path_element), intent(inout) :: this
 
         deallocate (this%d)
 
     end subroutine destroy_path
 
-end module svgf_path
+end module svgf_shape_path

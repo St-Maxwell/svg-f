@@ -1,5 +1,6 @@
 module svgf_attribute_helper
-    use svgf_attribute, only: svg_attribute, svg_attribute_vector
+    use svgf_attribute_base, only: svg_attribute
+    use svgf_attribute_vector, only: attribute_vector
     use svgf_utils
     implicit none
     private
@@ -9,7 +10,7 @@ module svgf_attribute_helper
 contains
 
     function attribs_to_string(attribs) result(string)
-        type(svg_attribute_vector), intent(in) :: attribs
+        type(attribute_vector), intent(in) :: attribs
         character(len=:), allocatable :: string
         type(string_buffer_t) :: buf
         integer :: i

@@ -3,11 +3,10 @@ program main
     use svgf
     implicit none
     integer :: u
-    class(svg_element), pointer :: svg
-    class(svg_element), pointer :: g
-    class(svg_element), pointer :: path
-    class(svg_element), pointer :: rect
-    type(svg_attribute), dimension(:), allocatable :: attrs
+    type(svg) :: logo
+    type(g_element), pointer :: g_ptr
+    type(path_element), pointer :: path_ptr
+    type(rect_element), pointer :: rect_ptr
     character(len=*), parameter :: path_text1 = &
         "M40.297852 44.544922, 41.147461 40.443359, 56.967774 40.443359, 56.264649 44.544922 Z"
     character(len=*), parameter :: path_text2 = &
@@ -19,46 +18,39 @@ program main
     character(len=*), parameter :: path_arrow = &
         "M43 25 L61 25 L54 18 L51.88 20.12 L53.758 22 L43 22 Z"
 
-    call new_g(g, id="svgf-logo")
 
-    call new_path(path, path_text1)
-    call path%set_attrs("fill", "#5d3a7e")
-    call g%add_child(path)
+    call create_svg(logo)
+    call logo%set_attrs("viewBox", "7 18 86 54")
 
-    call new_path(path, path_text2)
-    call path%set_attrs("fill", "#815aa8")
-    call g%add_child(path)
+    call logo%g(g_ptr, id="svgf-logo")
 
-    call new_path(path, path_arrow)
-    call path%set_attrs("fill", "#815aa8")
-    call g%add_child(path)
+    call g_ptr%path(path_ptr, path_text1)
+    call path_ptr%set_attrs("fill", "#5d3a7e")
 
-    call new_rect(rect, i2s(7), i2s(50), i2s(30), i2s(6))
-    attrs = [svg_attribute("transform","rotate(-45 7, 50)"), svg_attribute("fill","#5d3a7e")]
-    call rect%set_attrs(attrs)
-    call g%add_child(rect)
+    call g_ptr%path(path_ptr, path_text2)
+    call path_ptr%set_attrs("fill", "#815aa8")
 
-    call new_rect(rect, i2s(7), i2s(44), i2s(30), i2s(6))
-    attrs = [svg_attribute("transform","rotate(45 7, 50)"), svg_attribute("fill","#815aa8")]
-    call rect%set_attrs(attrs)
-    call g%add_child(rect)
+    call g_ptr%path(path_ptr, path_arrow)
+    call path_ptr%set_attrs("fill", "#815aa8")
 
-    call new_rect(rect, i2s(63), i2s(50), i2s(30), i2s(6))
-    attrs = [svg_attribute("transform","rotate(45 93, 50)"), svg_attribute("fill","#5d3a7e")]
-    call rect%set_attrs(attrs)
-    call g%add_child(rect)
+    call g_ptr%rect(rect_ptr, 7*unitless, 50*unitless, 30*unitless, 6*unitless)
+    call rect_ptr%set_attrs("transform","rotate(-45 7, 50)")
+    call rect_ptr%set_attrs("fill","#5d3a7e")
 
-    call new_rect(rect, i2s(63), i2s(44), i2s(30), i2s(6))
-    attrs = [svg_attribute("transform","rotate(-45 93, 50)"), svg_attribute("fill","#815aa8")]
-    call rect%set_attrs(attrs)
-    call g%add_child(rect)
+    call g_ptr%rect(rect_ptr, 7*unitless, 44*unitless, 30*unitless, 6*unitless)
+    call rect_ptr%set_attrs("transform","rotate(45 7, 50)")
+    call rect_ptr%set_attrs("fill","#815aa8")
 
-    call new_svg(svg)
-    call svg%set_attrs("viewBox", "7 18 86 54")
-    call svg%add_child(g)
+    call g_ptr%rect(rect_ptr, 63*unitless, 50*unitless, 30*unitless, 6*unitless)
+    call rect_ptr%set_attrs("transform","rotate(45 93, 50)")
+    call rect_ptr%set_attrs("fill","#5d3a7e")
+
+    call g_ptr%rect(rect_ptr, 63*unitless, 44*unitless, 30*unitless, 6*unitless)
+    call rect_ptr%set_attrs("transform","rotate(-45 93, 50)")
+    call rect_ptr%set_attrs("fill","#815aa8")
 
     open (newunit=u, file="./assets/svg-f.svg", action="write")
-    write (u, "(A)") svg%serialize()
+    write (u, "(A)") logo%serialize()
     close (u)
 
 end program main
