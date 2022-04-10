@@ -6,35 +6,17 @@
 
 # API
 ```fortran
+use svgf
+type(svg) :: svg_instance
+type(g_element), pointer :: g_ptr
+type(line_element), pointer :: line_ptr
 
-class(svg_element), pointer :: p
-class(svg_element), pointer :: child
+call create_svg(svg_instance, 100*pt, 100*pt)
 
-call new_svg(p, kwargs...)
-call p.set_attrs(...)
+call svg_instance%line(line_ptr, 0*pt, 0*pt, 50*pt, 50*pt)
+call svg_instance%g(g_ptr, id="group1")
+call g_ptr%line(line_ptr, 50*pt, 50*pt, 100*pt, 0*pt)
+call line%set_attrs("stroke-width","3")
 
-call new_rect(child, kwargs...)
-call child.set_attrs(...)
-call p.add_child(child)
-! child is now unassociated
-```
-
-```fortran
-! <svg>
-! <g>
-! <line/>
-! </g>
-! </svg>
-class(svg_element), pointer :: p, g, l
-
-call new_line(l, ...)
-
-call new_group(g, ...)
-call g.add_child(l)
-! l is unassociated
-
-call new_svg(p, ...)
-call p.add_child(g)
-! g is unassociated
-
+write(*,*) svg_instance%serialize()
 ```
