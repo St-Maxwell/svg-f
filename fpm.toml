@@ -21,3 +21,8 @@ main = "tester.f90"
 name = "test_svgf_utils"
 source-dir = "test/test_svgf_utils"
 main = "tester.f90"
+
+[[test]]
+name = "test_path_action"
+source-dir = "test/test_path_action"
+main = "tester.f90"
