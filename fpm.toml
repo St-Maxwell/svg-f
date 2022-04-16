@@ -26,3 +26,9 @@ main = "tester.f90"
 name = "test_path_action"
 source-dir = "test/test_path_action"
 main = "tester.f90"
+
+[[test]]
+name = "test_text"
+source-dir = "test/test_text"
+main = "tester.f90"
+

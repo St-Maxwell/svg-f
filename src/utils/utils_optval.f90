@@ -8,6 +8,7 @@ module svgf_utils_optval
         module procedure :: optval_i
         module procedure :: optval_r
         module procedure :: optval_s
+        module procedure :: optval_b
     end interface
 
 contains
@@ -49,6 +50,20 @@ contains
         else
             result = default
         end if
+
     end function optval_s
+
+    pure function optval_b(b, default) result(result)
+        logical, intent(in), optional :: b
+        logical, intent(in) :: default
+        logical :: result
+
+        if (present(b)) then
+            result = b
+        else
+            result = default
+        end if
+
+    end function optval_b
 
 end module svgf_utils_optval
