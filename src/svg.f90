@@ -5,10 +5,10 @@ module svgf_svg
     use svgf_utils
     implicit none
     private
-    public :: svg
+    public :: svg_document
     public :: create_svg
 
-    type, extends(svg_container_base) :: svg
+    type, extends(svg_container_base) :: svg_document
         character(len=:), allocatable :: width
         character(len=:), allocatable :: height
         character(len=26), private :: xmlns = "http://www.w3.org/2000/svg"
@@ -23,7 +23,7 @@ module svgf_svg
 contains
 
     subroutine create_svg(new_svg, width, height, id)
-        type(svg), intent(inout) :: new_svg
+        type(svg_document), intent(inout) :: new_svg
         character(len=*), intent(in), optional :: width
         character(len=*), intent(in), optional :: height
         character(len=*), intent(in), optional :: id
@@ -35,7 +35,7 @@ contains
     end subroutine create_svg
 
     function serialize_svg(this) result(string)
-        class(svg), intent(in) :: this
+        class(svg_document), intent(in) :: this
         character(len=:), allocatable :: string
         type(string_buffer_t) :: buf
         integer :: i
@@ -62,7 +62,7 @@ contains
     end function serialize_svg
 
     function get_tag_svg(this) result(tag)
-        class(svg), intent(in) :: this
+        class(svg_document), intent(in) :: this
         character(len=:), allocatable :: tag
 
         tag = "svg"
@@ -70,12 +70,12 @@ contains
     end function get_tag_svg
 
     subroutine destroy_svg(this)
-        class(svg), intent(inout) :: this
+        class(svg_document), intent(inout) :: this
 
     end subroutine destroy_svg
 
     subroutine svg_add_g(this, ptr, id)
-        class(svg), intent(inout) :: this
+        class(svg_document), intent(inout) :: this
         type(g_element), pointer, intent(inout) :: ptr
         character(len=*), intent(in), optional :: id
         class(svg_element_base), pointer :: tmp

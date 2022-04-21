@@ -1,19 +1,15 @@
 module svgf_shape_path_action
-    use svgf_utils, only: string_buffer_t
+    use svgf_utils, only: string_buffer_t, f2s
     implicit none
     private
     public :: path_action
 
     integer, parameter :: initial_size = 16
 
-    !> a local auxilliary type
-    type :: str
-        character(len=:), allocatable :: s
-    end type
-
     type :: path_command
         character(len=:), allocatable :: command
-        type(str), dimension(:), allocatable :: parameters
+        !> coordinate parameters in path command are always unitless
+        real, dimension(:), allocatable :: parameters
     end type
 
     type :: path_action
@@ -42,152 +38,152 @@ contains
 
     subroutine move_to(this, x, y)
         class(path_action), intent(inout) :: this
-        character(len=*), intent(in) :: x
-        character(len=*), intent(in) :: y
+        real, intent(in) :: x
+        real, intent(in) :: y
         type(path_command) :: cmd
 
         cmd%command = 'M'
-        cmd%parameters = [str(x), str(y)]
+        cmd%parameters = [x, y]
         call this%push_back(cmd)
 
     end subroutine move_to
 
     subroutine move_by(this, dx, dy)
         class(path_action), intent(inout) :: this
-        character(len=*), intent(in) :: dx
-        character(len=*), intent(in) :: dy
+        real, intent(in) :: dx
+        real, intent(in) :: dy
         type(path_command) :: cmd
 
         cmd%command = 'm'
-        cmd%parameters = [str(dx), str(dy)]
+        cmd%parameters = [dx, dy]
         call this%push_back(cmd)
 
     end subroutine move_by
 
     subroutine line_to(this, x, y)
         class(path_action), intent(inout) :: this
-        character(len=*), intent(in) :: x
-        character(len=*), intent(in) :: y
+        real, intent(in) :: x
+        real, intent(in) :: y
         type(path_command) :: cmd
 
         cmd%command = 'L'
-        cmd%parameters = [str(x), str(y)]
+        cmd%parameters = [x, y]
         call this%push_back(cmd)
 
     end subroutine line_to
 
     subroutine line_by(this, dx, dy)
         class(path_action), intent(inout) :: this
-        character(len=*), intent(in) :: dx
-        character(len=*), intent(in) :: dy
+        real, intent(in) :: dx
+        real, intent(in) :: dy
         type(path_command) :: cmd
 
         cmd%command = 'l'
-        cmd%parameters = [str(dx), str(dy)]
+        cmd%parameters = [dx, dy]
         call this%push_back(cmd)
 
     end subroutine line_by
 
     subroutine horizontal_line_to(this, x)
         class(path_action), intent(inout) :: this
-        character(len=*), intent(in) :: x
+        real, intent(in) :: x
         type(path_command) :: cmd
 
         cmd%command = 'H'
-        cmd%parameters = [str(x)]
+        cmd%parameters = [x]
         call this%push_back(cmd)
 
     end subroutine horizontal_line_to
 
     subroutine horizontal_line_by(this, dx)
         class(path_action), intent(inout) :: this
-        character(len=*), intent(in) :: dx
+        real, intent(in) :: dx
         type(path_command) :: cmd
 
         cmd%command = 'h'
-        cmd%parameters = [str(dx)]
+        cmd%parameters = [dx]
         call this%push_back(cmd)
 
     end subroutine horizontal_line_by
 
     subroutine vertical_line_to(this, y)
         class(path_action), intent(inout) :: this
-        character(len=*), intent(in) :: y
+        real, intent(in) :: y
         type(path_command) :: cmd
 
         cmd%command = 'V'
-        cmd%parameters = [str(y)]
+        cmd%parameters = [y]
         call this%push_back(cmd)
 
     end subroutine vertical_line_to
 
     subroutine vertical_line_by(this, dy)
         class(path_action), intent(inout) :: this
-        character(len=*), intent(in) :: dy
+        real, intent(in) :: dy
         type(path_command) :: cmd
 
         cmd%command = 'v'
-        cmd%parameters = [str(dy)]
+        cmd%parameters = [dy]
         call this%push_back(cmd)
 
     end subroutine vertical_line_by
 
     subroutine quadratic_curve_to(this, x1, y1, x, y)
         class(path_action), intent(inout) :: this
-        character(len=*), intent(in) :: x1
-        character(len=*), intent(in) :: y1
-        character(len=*), intent(in) :: x
-        character(len=*), intent(in) :: y
+        real, intent(in) :: x1
+        real, intent(in) :: y1
+        real, intent(in) :: x
+        real, intent(in) :: y
         type(path_command) :: cmd
 
         cmd%command = 'Q'
-        cmd%parameters = [str(x1), str(y1//','), str(x), str(y)]
+        cmd%parameters = [x1, y1, x, y]
         call this%push_back(cmd)
 
     end subroutine quadratic_curve_to
 
     subroutine quadratic_curve_by(this, dx1, dy1, dx, dy)
         class(path_action), intent(inout) :: this
-        character(len=*), intent(in) :: dx1
-        character(len=*), intent(in) :: dy1
-        character(len=*), intent(in) :: dx
-        character(len=*), intent(in) :: dy
+        real, intent(in) :: dx1
+        real, intent(in) :: dy1
+        real, intent(in) :: dx
+        real, intent(in) :: dy
         type(path_command) :: cmd
 
         cmd%command = 'q'
-        cmd%parameters = [str(dx1), str(dy1//','), str(dx), str(dy)]
+        cmd%parameters = [dx1, dy1, dx, dy]
         call this%push_back(cmd)
 
     end subroutine quadratic_curve_by
 
     subroutine cubic_curve_to(this, x1, y1, x2, y2, x, y)
         class(path_action), intent(inout) :: this
-        character(len=*), intent(in) :: x1
-        character(len=*), intent(in) :: y1
-        character(len=*), intent(in) :: x2
-        character(len=*), intent(in) :: y2
-        character(len=*), intent(in) :: x
-        character(len=*), intent(in) :: y
+        real, intent(in) :: x1
+        real, intent(in) :: y1
+        real, intent(in) :: x2
+        real, intent(in) :: y2
+        real, intent(in) :: x
+        real, intent(in) :: y
         type(path_command) :: cmd
 
         cmd%command = 'C'
-        cmd%parameters = [str(x1), str(y1//','), str(x2), str(y2//','), str(x), str(y)]
+        cmd%parameters = [x1, y1, x2, y2, x, y]
         call this%push_back(cmd)
 
     end subroutine cubic_curve_to
 
     subroutine cubic_curve_by(this, dx1, dy1, dx2, dy2, dx, dy)
         class(path_action), intent(inout) :: this
-        character(len=*), intent(in) :: dx1
-        character(len=*), intent(in) :: dy1
-        character(len=*), intent(in) :: dx2
-        character(len=*), intent(in) :: dy2
-        character(len=*), intent(in) :: dx
-        character(len=*), intent(in) :: dy
+        real, intent(in) :: dx1
+        real, intent(in) :: dy1
+        real, intent(in) :: dx2
+        real, intent(in) :: dy2
+        real, intent(in) :: dx
+        real, intent(in) :: dy
         type(path_command) :: cmd
 
         cmd%command = 'c'
-        cmd%parameters = [str(dx1), str(dy1//','), str(dx2), str(dy2//','), str(dx), str(dy)]
+        cmd%parameters = [dx1, dy1, dx2, dy2, dx, dy]
         call this%push_back(cmd)
 
     end subroutine cubic_curve_by
@@ -214,7 +210,7 @@ contains
             call buf%append(this%cmds(i)%command)
             do j = 1, size(this%cmds(i)%parameters)
                 if (j > 1) call buf%append(' ')
-                call buf%append(this%cmds(i)%parameters(j)%s)
+                call buf%append(f2s(this%cmds(i)%parameters(j)))
             end do
         end do
 

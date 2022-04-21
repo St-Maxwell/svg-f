@@ -4,7 +4,7 @@ module svgf_utils_unit
     implicit none
     private
     public :: unitless
-    public :: cm, mm, em, ex, px, inch, pc, pt, percent
+    public :: cm, mm, em, ex, px, inch, pc, pt, per
     public :: deg, rad
     public :: operator(*)
 
@@ -22,7 +22,7 @@ module svgf_utils_unit
     type(svg_unit), parameter :: inch = svg_unit("in")
     type(svg_unit), parameter :: pc = svg_unit("pc")
     type(svg_unit), parameter :: pt = svg_unit("pt")
-    type(svg_unit), parameter :: percent = svg_unit("%")
+    type(svg_unit), parameter :: per = svg_unit("%")
     type(svg_unit), parameter :: deg = svg_unit("deg")
     type(svg_unit), parameter :: rad = svg_unit("rad")
 
