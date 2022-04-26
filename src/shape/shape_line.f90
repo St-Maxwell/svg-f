@@ -19,21 +19,21 @@ module svgf_shape_line
 
 contains
 
-    subroutine create_line_element(new_line_element, x1, y1, x2, y2, id)
-        type(line_element), pointer, intent(inout) :: new_line_element
+    subroutine create_line_element(line_ptr, x1, y1, x2, y2, id)
+        type(line_element), pointer, intent(inout) :: line_ptr
         character(len=*), intent(in) :: x1
         character(len=*), intent(in) :: y1
         character(len=*), intent(in) :: x2
         character(len=*), intent(in) :: y2
         character(len=*), intent(in), optional :: id
 
-        if (associated(new_line_element)) new_line_element => null()
-        allocate(new_line_element)
-        new_line_element%x1 = x1
-        new_line_element%y1 = y1
-        new_line_element%x2 = x2
-        new_line_element%y2 = y2
-        if (present(id)) call new_line_element%set_id(id)
+        if (associated(line_ptr)) line_ptr => null()
+        allocate(line_ptr)
+        line_ptr%x1 = x1
+        line_ptr%y1 = y1
+        line_ptr%x2 = x2
+        line_ptr%y2 = y2
+        if (present(id)) call line_ptr%set_id(id)
 
     end subroutine create_line_element
 

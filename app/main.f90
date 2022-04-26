@@ -9,7 +9,7 @@ program main
     type(rect_element), pointer :: rect_ptr
     type(path_action) :: text1, text2, arrow
 
-    call create_svg(logo)
+    call create_svg_document(logo)
     call logo%set_attrs("viewBox", "7 18 86 54")
 
     call logo%g(g_ptr, id="svgf-logo")

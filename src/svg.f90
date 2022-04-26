@@ -6,7 +6,7 @@ module svgf_svg
     implicit none
     private
     public :: svg_document
-    public :: create_svg
+    public :: create_svg_document
 
     type, extends(svg_container_base) :: svg_document
         character(len=:), allocatable :: width
@@ -18,11 +18,12 @@ module svgf_svg
         procedure :: get_tag => get_tag_svg
         procedure :: destroy => destroy_svg
         procedure :: g => svg_add_g
+        procedure :: text => svg_add_text
     end type
 
 contains
 
-    subroutine create_svg(new_svg, width, height, id)
+    subroutine create_svg_document(new_svg, width, height, id)
         type(svg_document), intent(inout) :: new_svg
         character(len=*), intent(in), optional :: width
         character(len=*), intent(in), optional :: height
@@ -32,7 +33,7 @@ contains
         new_svg%height = optval(height, "100%")
         if (present(id)) call new_svg%set_id(id)
 
-    end subroutine create_svg
+    end subroutine create_svg_document
 
     function serialize_svg(this) result(string)
         class(svg_document), intent(in) :: this
@@ -80,13 +81,26 @@ contains
         character(len=*), intent(in), optional :: id
         class(svg_element_base), pointer :: tmp
 
-        if (associated(ptr)) ptr => null()
-        allocate (ptr)
-        if (present(id)) call ptr%set_id(id)
+        call create_g_element(ptr, id)
 
         tmp => ptr
         call this%child%push_back(tmp)
 
     end subroutine svg_add_g
+
+    subroutine svg_add_text(this, ptr, x, y, id)
+        class(svg_document), intent(inout) :: this
+        type(text_element), pointer, intent(inout) :: ptr
+        character(len=*), intent(in) :: x
+        character(len=*), intent(in) :: y
+        character(len=*), intent(in), optional :: id
+        class(svg_element_base), pointer :: tmp
+
+        call create_text_element(ptr, x, y, id)
+
+        tmp => ptr
+        call this%child%push_back(tmp)
+
+    end subroutine svg_add_text
 
 end module svgf_svg

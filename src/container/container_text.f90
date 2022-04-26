@@ -6,7 +6,7 @@ module svgf_container_text
     use svgf_attribute, only: attribs_to_string
     implicit none
     private
-    public :: text_element
+    public :: text_element, create_text_element
 
     type, extends(svg_container_base) :: text_element
         character(len=:), allocatable :: x
@@ -19,6 +19,20 @@ module svgf_container_text
     end type
 
 contains
+
+    subroutine create_text_element(text_ptr, x, y, id)
+        type(text_element), pointer, intent(inout) :: text_ptr
+        character(len=*), intent(in) :: x
+        character(len=*), intent(in) :: y
+        character(len=*), intent(in), optional :: id
+
+        if (associated(text_ptr)) text_ptr => null()
+        allocate(text_ptr)
+        text_ptr%x = x
+        text_ptr%y = y
+        if (present(id)) call text_ptr%set_id(id)
+        
+    end subroutine create_text_element
 
     function serialize_text(this) result(string)
         class(text_element), intent(in) :: this

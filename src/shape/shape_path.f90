@@ -4,7 +4,7 @@ module svgf_shape_path
     use svgf_utils
     implicit none
     private
-    public :: path_element
+    public :: path_element, create_path_element
 
     type, extends(svg_element_base) :: path_element
         character(len=:), allocatable :: d
@@ -15,6 +15,18 @@ module svgf_shape_path
     end type
 
 contains
+
+    subroutine create_path_element(path_ptr, d, id)
+        type(path_element), pointer, intent(inout) :: path_ptr
+        character(len=*), intent(in) :: d
+        character(len=*), intent(in), optional :: id
+
+        if (associated(path_ptr)) path_ptr => null()
+        allocate (path_ptr)
+        path_ptr%d = d
+        if (present(id)) call path_ptr%set_id(id)
+        
+    end subroutine create_path_element
 
     function serialize_path(this) result(string)
         class(path_element), intent(in) :: this

@@ -4,7 +4,7 @@ module svgf_shape_rect
     use svgf_utils
     implicit none
     private
-    public :: rect_element
+    public :: rect_element, create_rect_element
 
     type, extends(svg_element_base) :: rect_element
         character(len=:), allocatable :: x
@@ -18,6 +18,24 @@ module svgf_shape_rect
     end type
 
 contains
+
+    subroutine create_rect_element(rect_ptr, x, y, width, height, id)
+        type(rect_element), pointer, intent(inout) :: rect_ptr
+        character(len=*), intent(in) :: x
+        character(len=*), intent(in) :: y
+        character(len=*), intent(in) :: width
+        character(len=*), intent(in) :: height
+        character(len=*), intent(in), optional :: id
+
+        if (associated(rect_ptr)) rect_ptr => null()
+        allocate (rect_ptr)
+        rect_ptr%x = x
+        rect_ptr%y = y
+        rect_ptr%width = width
+        rect_ptr%height = height
+        if (present(id)) call rect_ptr%set_id(id)
+
+    end subroutine create_rect_element
 
     function serialize_rect(this) result(string)
         class(rect_element), intent(in) :: this

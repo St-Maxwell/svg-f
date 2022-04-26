@@ -6,14 +6,14 @@ module svgf_element_vector
 
     integer, parameter :: initial_size = 16
 
-    !> wrapper type of svg_element pointer
+    !> wrapper type of svg_element_bases pointer
     type :: element_ptr
         class(svg_element_base), pointer :: ptr => null()
     contains
         final :: free_ptr
     end type
 
-    !> manager type for adding new svg_element object
+    !> manager type for adding new svg_element_base object
     type :: element_vector
         type(element_ptr), dimension(:), allocatable :: lst
         integer :: sz = 0
